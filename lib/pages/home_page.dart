@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notar_e_anotar_app/widgets/button_widget.dart';
 
-import 'onboarding.dart';
-
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -29,7 +27,5 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  void goToOnBoarding(context) => Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => Onboarding()),
-      );
+  void goToOnBoarding(context) => print("Tapped button");
 }

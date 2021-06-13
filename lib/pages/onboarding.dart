@@ -3,7 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:notar_e_anotar_app/pages/routine_period_selection.dart';
-import 'package:notar_e_anotar_app/widgets/button_widget.dart';
+
+import 'login_page.dart';
 
 class Onboarding extends StatefulWidget {
   Onboarding({Key key, this.title}) : super(key: key);
@@ -29,55 +30,106 @@ class _OnboardingState extends State<Onboarding> {
       body: IntroductionScreen(
         pages: [
           PageViewModel(
-            title: 'Título Aqui',
-            bodyWidget: Image(
-              image: AssetImage(
-                'images/onboarding_image_1.png',
-              ),
+            title: 'A Rotina Merece\n Ser Cuidada',
+            bodyWidget: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 16),
+                Center(
+                  child: Container(
+                    child: Image(
+                      image: AssetImage('images/Image_01_Onboarding.png'),
+                    ),
+                    margin: const EdgeInsets.all(10.0),
+                    width: 209.0,
+                    height: 267.0,
+                  ),
+                ),
+                SizedBox(height: 16),
+                Center(
+                  child: Text(
+                    'Notar e Anotar ajuda a cuidar da rotina de sua família Ensine desde cedo as crianças',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey,
+                        fontSize: 14),
+                  ),
+                ),
+              ],
             ),
-            footer: Text(
-              'Lorem ipsum '
-              'lorem ipsum',
-              style: TextStyle(fontSize: 20),
-            ),
-            //image: buildImage('images/group_25.png'),
             decoration: getPageDecoration(),
           ),
           PageViewModel(
-            title: 'Título Aqui',
-            bodyWidget: Image(
-              image: AssetImage('images/onboarding_image_2.png'),
+            title: 'Organize Sua Rotina',
+            bodyWidget: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 16),
+                Center(
+                  child: Container(
+                    child: Image(
+                      image: AssetImage('images/Image_02_Onboarding.png'),
+                    ),
+                    margin: const EdgeInsets.all(10.0),
+                    width: 209.0,
+                    height: 267.0,
+                  ),
+                ),
+                SizedBox(height: 16),
+                Center(
+                  child: Text(
+                    'Programe a semana!\nEvite imprevistos e confusões em sua casa \nValorize seu tempo!',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey,
+                        fontSize: 14),
+                  ),
+                ),
+              ],
             ),
-            footer: Text(
-              'Lorem ipsum '
-              'lorem ipsum',
-              style: TextStyle(fontSize: 20),
-            ),
-            //image: buildImage('images/group_26.png'),
             decoration: getPageDecoration(),
           ),
           PageViewModel(
-            title: 'Título Aqui',
-            bodyWidget: Image(
-              image: AssetImage('images/onboarding_image_3.png'),
+            title: 'Valorize cada conquista \nde seu filho!',
+            bodyWidget: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 16),
+                Center(
+                  child: Container(
+                    child: Image(
+                      image: AssetImage('images/Image_03_Onboarding.png'),
+                    ),
+                    //margin: const EdgeInsets.all(10.0),
+                    width: 720.0,
+                    height: 326.0,
+                  ),
+                ),
+                Center(
+                  child: Text(
+                    'Reconheça e elogie! \nEstimule seu filho nas tarefas do dia a dia',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey,
+                        fontSize: 14),
+                  ),
+                ),
+              ],
             ),
-            footer: ButtonWidget(
-              text: 'Começar App',
-              onClicked: () => goToHome(context),
-            ),
-
-            //image: buildImage('images/family.png'),
             decoration: getPageDecoration(),
-          ),
+          )
         ],
         done: Text(
-          'Read',
+          'PRONTO',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               color: customizedGreen,
               fontSize: 15),
         ),
-        onDone: () => goToHome(context),
+        onDone: () => goToLogin(context),
         showSkipButton: true,
         skip: Text(
           'Pular',
@@ -115,20 +167,19 @@ class _OnboardingState extends State<Onboarding> {
         activeColor: customizedGreen,
       );
 
-  void goToHome(context) => Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => RoutinePeriodSelection()),
-      );
+  void goToLogin(context) => Navigator.push(
+      context, MaterialPageRoute(builder: (context) => LoginPage()));
 
   Widget buildImage(String path) =>
       Center(child: Image.asset(path, width: 500));
 
   PageDecoration getPageDecoration() => PageDecoration(
         titleTextStyle: TextStyle(
-            fontSize: 35, fontWeight: FontWeight.bold, color: customizedGreen),
+            fontSize: 28, fontWeight: FontWeight.bold, color: customizedGreen),
         bodyTextStyle: TextStyle(fontSize: 20),
-        titlePadding: EdgeInsets.all(20).copyWith(top: 0),
-        descriptionPadding: EdgeInsets.all(16).copyWith(bottom: 0),
-        imagePadding: EdgeInsets.all(24),
+        titlePadding: EdgeInsets.all(8).copyWith(top: 0),
+        descriptionPadding: EdgeInsets.all(8).copyWith(bottom: 0),
+        imagePadding: EdgeInsets.all(8),
         pageColor: Colors.white,
       );
 }

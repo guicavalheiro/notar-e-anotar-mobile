@@ -1,9 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notar_e_anotar_app/components/top_card.dart';
 import 'package:notar_e_anotar_app/pages/weekly_routine_registration.dart';
 import 'package:notar_e_anotar_app/styles/global_styles.dart';
 
+import 'routine_theme_selection.dart';
+
 class RoutinePlanRegistration extends StatefulWidget {
+  final List<WeekTheme> weekThemes;
+
+  const RoutinePlanRegistration({this.weekThemes});
+
   @override
   _RoutinePlanRegistrationState createState() =>
       _RoutinePlanRegistrationState();
@@ -30,6 +37,7 @@ class _RoutinePlanRegistrationState extends State<RoutinePlanRegistration> {
   ];
 
   @override
+  int _value = 1;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -43,60 +51,56 @@ class _RoutinePlanRegistrationState extends State<RoutinePlanRegistration> {
         elevation: 0.0,
       ),
       extendBodyBehindAppBar: true,
-      body: Container(
-          width: double.infinity,
-          height: double.infinity,
+      body: Column(children: [
+        TopCard(title: 'Resumo de atividades'),
+        SizedBox(height: 32),
+        Container(
+          height: MediaQuery.of(context).size.height / 2,
+          margin: EdgeInsets.symmetric(horizontal: 0),
           decoration: BoxDecoration(
-            image: DecorationImage(
-              alignment: Alignment.topCenter,
-              image: AssetImage('images/onboarding_blob_3@3x.png'),
-              fit: BoxFit.fitWidth,
-            ),
-          ),
-          child: SafeArea(
-            child: Column(children: [
-              Padding(
-                padding: EdgeInsets.only(
-                    top: kTitleTopPadding,
-                    bottom: MediaQuery.of(context).size.height * 0.075),
-                child: Center(
-                    child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 2 / 3,
-                  child: Text(
-                    'Resumo de atividades',
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
-                )),
-              ),
-              Expanded(
-                flex: 2,
-                child: Container(
-                  margin: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      boxShadow: listBoxShadow, color: Colors.white),
-                  child: SingleChildScrollView(
-                    child: ListBody(
-                        children: themesList
-                            .map((String theme) => ListTile(
-                                  title: Text('$theme',
-                                      style: TextStyle(
-                                          color: primaryDark,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 18,
-                                          fontFamily: 'Roboto')),
-                                  leading: CircleAvatar(
-                                    child: Text('$theme'.characters.first),
+              boxShadow: listBoxShadow, color: Colors.transparent),
+          child: SingleChildScrollView(
+            child: ListBody(
+                children: widget.weekThemes
+                    .map((WeekTheme theme) => Column(
+                          children: [
+                            SizedBox(height: 8),
+                            SizedBox(
+                              height: 67,
+                              child: ListTile(
+                                title: Text(theme.title,
+                                    style: TextStyle(
+                                        color: primaryDark,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18,
+                                        fontFamily: 'Roboto')),
+                                leading: Container(
+                                  child: Image(
+                                    image: AssetImage('images/teste.png'),
                                   ),
-                                ))
-                            .toList()),
-                  ),
-                ),
-              ),
-            ]),
-          )),
+                                  width: 56.0,
+                                  height: 56.0,
+                                  decoration: BoxDecoration(boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
+                                    )
+                                  ]),
+                                ),
+                              ),
+                            ),
+                            Container(
+                                child: Divider(),
+                                margin: EdgeInsets.only(left: 72.0, right: 0.0))
+                          ],
+                        ))
+                    .toList()),
+          ),
+        ),
+      ]),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
         width: double.infinity,
@@ -106,17 +110,17 @@ class _RoutinePlanRegistrationState extends State<RoutinePlanRegistration> {
             gradient: mainGreenGradient,
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.transparent),
-          ),
-          child: Text('CONFIRMAR'),
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => WeeklyRoutineRegistration()));
-          },
-        ),
+            child: Text('CONFIRMAR'),
+            style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all(
+                  Size(MediaQuery.of(context).size.width - 64, 44)),
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => WeeklyRoutineRegistration()));
+            }),
       ),
     );
   }

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 // Styles used constantly all over application
 
 // Theme colors
-const primary = Color.fromRGBO(0x14, 0x78, 0x74, 1);
+const primary = Color.fromRGBO(0x62, 0xA0, 0xA0, 1);
+const primaryFaded = Color.fromRGBO(0xC7, 0xE4, 0xDF, 1);
 const primaryAccent = Color.fromRGBO(0x3B, 0x84, 0x82, 1);
 const primaryListTile = Color.fromRGBO(0x27, 0xA3, 0x9E, 1);
 const grey = Color.fromRGBO(0x94, 0x90, 0x90, 1);
@@ -13,6 +14,8 @@ const transparentGrey = Color.fromRGBO(0x00, 0x00, 0x00, 0.33);
 const backgroundGrey = Color.fromRGBO(0xEF, 0xEE, 0xEE, 1);
 const lightGradientFirstColor = Color.fromRGBO(0x27, 0xA3, 0x9E, 1);
 const lightGradientSecondColor = Color.fromRGBO(0x3A, 0xC1, 0xC1, 1);
+
+const darkestGreen = Color.fromRGBO(0x3A, 0x69, 0x69, 1);
 
 // Complex visual elements
 const shadowColor = Color.fromRGBO(0x00, 0x00, 0x00, 0.15);

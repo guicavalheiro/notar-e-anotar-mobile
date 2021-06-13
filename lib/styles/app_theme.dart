@@ -6,7 +6,7 @@ final appTheme = ThemeData(
   brightness: Brightness.light,
   primaryColor: primary,
   accentColor: primaryAccent,
-  backgroundColor: backgroundGrey,
+  backgroundColor: Colors.white,
   shadowColor: shadowColor,
   appBarTheme: AppBarTheme(
       elevation: 0,
@@ -17,6 +17,9 @@ final appTheme = ThemeData(
 
   // Define the default font family.
   fontFamily: 'Baloo 2',
+
+  //MEXER AQUI PRA ALTERAR A BOSTA DO SLIDER
+  //sliderTheme: SliderThemeData(color: Colors.red),
 
   visualDensity: VisualDensity.standard,
   cardTheme: CardTheme(
@@ -44,9 +47,9 @@ final appTheme = ThemeData(
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))),
     backgroundColor: MaterialStateProperty.resolveWith((states) {
       if (states.contains(MaterialState.pressed)) {
-        return primaryAccent;
+        return primaryFaded;
       } else {
-        return primaryDark;
+        return primary;
       }
     }),
     foregroundColor: MaterialStateProperty.resolveWith((states) {
@@ -61,7 +64,7 @@ final appTheme = ThemeData(
         fontFamily: 'Baloo 2',
         letterSpacing: 1.25,
         fontWeight: FontWeight.w500,
-        fontSize: 14.0)),
+        fontSize: 18.0)),
   )),
   outlinedButtonTheme: OutlinedButtonThemeData(
       style: ButtonStyle(
@@ -88,7 +91,7 @@ final appTheme = ThemeData(
         fontFamily: 'Baloo 2',
         letterSpacing: 1.25,
         fontWeight: FontWeight.w500,
-        fontSize: 14.0)),
+        fontSize: 18.0)),
   )),
 
   // Define the default TextTheme. Use this to specify the default
@@ -97,6 +100,7 @@ final appTheme = ThemeData(
     headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
     headline3: TextStyle(
         fontSize: 20.0,
+        height: 1.4,
         fontWeight: FontWeight.bold,
         color: Colors.white,
         fontFamily: 'Roboto',
@@ -105,7 +109,7 @@ final appTheme = ThemeData(
     headline5: TextStyle(
         color: primaryDark, fontWeight: FontWeight.w500, fontSize: 20),
     headline6:
-        TextStyle(color: primary, fontWeight: FontWeight.bold, fontSize: 20),
+        TextStyle(color: primary, fontWeight: FontWeight.w300, fontSize: 20),
     bodyText1: TextStyle(color: Colors.white, fontSize: 20.0),
     bodyText2: TextStyle(color: Colors.white, fontSize: 14.0),
     subtitle1: TextStyle(

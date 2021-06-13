@@ -11,31 +11,26 @@ class WeekdaysCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 8, bottom: 20, left: 24, right: 24),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: cardBoxShadow,
-          borderRadius: BorderRadiusDirectional.only(
-              bottomStart: Radius.circular(25),
-              bottomEnd: Radius.circular(25))),
+      padding: EdgeInsets.only(top: 8, bottom: 20, left: 24),
+      color: Colors.white,
       alignment: Alignment.topLeft,
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Início',
-            style: TextStyle(color: primaryAccent, fontSize: 18),
+            'INÍCIO',
+            style: TextStyle(color: grey, fontSize: 18),
           ),
           Container(
             decoration: BoxDecoration(
-              border: Border.all(color: innerShadowColor, width: 1),
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
+              color: primaryFaded,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
               ),
             ),
             child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               physics: ClampingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               child: Container(

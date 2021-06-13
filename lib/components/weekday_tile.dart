@@ -36,11 +36,12 @@ class _WeekdayTileState extends State<WeekdayTile> {
       clipBehavior: Clip.none,
       margin: EdgeInsets.only(right: isLast ? 0 : 4),
       decoration: BoxDecoration(
-          gradient: isToday ? lightGradient : null,
-          boxShadow: isToday ? mainBoxShadow : null,
-          borderRadius: BorderRadiusDirectional.all(Radius.circular(10))),
+          color: isToday ? primary : Colors.transparent,
+          borderRadius: BorderRadiusDirectional.all(Radius.circular(8))),
       child: ElevatedButton(
         style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
           backgroundColor: MaterialStateProperty.all(Colors.transparent),
           elevation: MaterialStateProperty.resolveWith((states) {
             if (states.contains(MaterialState.pressed)) {
@@ -52,8 +53,9 @@ class _WeekdayTileState extends State<WeekdayTile> {
         ),
         onPressed: () => print('Tapped $dayNumber $dayName button!'),
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 7),
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 '$dayNumber',
