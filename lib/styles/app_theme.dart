@@ -30,13 +30,13 @@ final appTheme = ThemeData(
       margin: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
   bottomSheetTheme: BottomSheetThemeData(
-      backgroundColor: Colors.white,
-      elevation: 3.0,
-      modalElevation: 3.0,
+      backgroundColor: primary,
+      elevation: 10.0,
+      modalElevation: 10.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
         ),
       )),
 
@@ -98,6 +98,8 @@ final appTheme = ThemeData(
   // text styling for headlines, titles, bodies of text, and more.
   textTheme: TextTheme(
     headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+    headline2: TextStyle(
+        color: greyHeadLine, fontSize: 20.0, fontWeight: FontWeight.w400),
     headline3: TextStyle(
         fontSize: 20.0,
         height: 1.4,

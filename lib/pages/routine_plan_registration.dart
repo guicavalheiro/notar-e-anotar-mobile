@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:notar_e_anotar_app/components/top_card.dart';
+import 'package:notar_e_anotar_app/models/week_themes.dart';
 import 'package:notar_e_anotar_app/pages/weekly_routine_registration.dart';
+import 'package:notar_e_anotar_app/services/api.dart';
 import 'package:notar_e_anotar_app/styles/global_styles.dart';
-
-import 'routine_theme_selection.dart';
 
 class RoutinePlanRegistration extends StatefulWidget {
   final List<WeekTheme> weekThemes;
@@ -17,27 +20,32 @@ class RoutinePlanRegistration extends StatefulWidget {
 }
 
 class _RoutinePlanRegistrationState extends State<RoutinePlanRegistration> {
-  List<String> themesList = [
-    // 'Apresentação - Importância de monitorar a rotina',
-    'Falar de Motivação', // 0
-    'Aprender a relaxar', // 1
-    'Organizando a Rotina', // 2
-    'Habilidade social – Ser assertivo', // 3
-    'Momento especial dos pais', // 4
-    'Falando de emoções, pensamentos e comportamentos', // 5
-    'Incentive a Gentileza', // 6
-    'Vale uma recompensa', // 7
-    'Solução de problemas', // 8
-    'Favorecendo autonomia', // 9
-    'A importância do elogio', // 10
-    'As 05 linguagens do amor', // 11
-    'Estilo de pais', // 12
-    'Para cada reclamação mais gratidão', // 13
-    // 'Visão e término',
-  ];
-
   @override
   int _value = 1;
+  Future<http.Response> response;
+  RoutinePlan routinePlan;
+
+  Future<http.Response> createWeeklyRoutine() {
+    int numberOfWeeks = widget.weekThemes.length;
+    List<Subject> subjects = [];
+
+    widget.weekThemes.forEach((element) {
+      subjects.add(Subject(name: element.title));
+    });
+
+    routinePlan = RoutinePlan(numberOfWeeks: numberOfWeeks, subjects: subjects);
+
+    print(routinePlan.toJson());
+
+    return http.post(
+      Uri.parse('http://54.144.31.34/api/routine_plan/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(routinePlan.toJson()),
+    );
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -102,26 +110,20 @@ class _RoutinePlanRegistrationState extends State<RoutinePlanRegistration> {
         ),
       ]),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        width: double.infinity,
-        height: 44,
-        margin: EdgeInsets.symmetric(horizontal: 24),
-        decoration: BoxDecoration(
-            gradient: mainGreenGradient,
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: ElevatedButton(
-            child: Text('CONFIRMAR'),
-            style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(
-                  Size(MediaQuery.of(context).size.width - 64, 44)),
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => WeeklyRoutineRegistration()));
-            }),
-      ),
+      floatingActionButton: ElevatedButton(
+          child: Text('CONFIRMAR'),
+          style: ButtonStyle(
+            minimumSize: MaterialStateProperty.all(
+                Size(MediaQuery.of(context).size.width - 64, 44)),
+          ),
+          onPressed: () {
+            response = createWeeklyRoutine();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        WeeklyRoutineRegistration(routinePlan: routinePlan)));
+          }),
     );
   }
 }

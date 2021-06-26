@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:objectid/objectid.dart';
-
-import 'additional_info.dart';
-import 'mood.dart';
+part of swagger.api;
 
 class RoutineData {
   String id;

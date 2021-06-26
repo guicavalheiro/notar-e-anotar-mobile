@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:objectid/objectid.dart';
+part of swagger.api;
 
 class User {
   String id;
   String firstName;
   String lastName;
+  String childName;
   String email;
   String password;
   String sessionToken;
@@ -12,10 +12,12 @@ class User {
   User(
       {@required this.firstName,
       @required this.lastName,
+      @required this.childName,
       @required this.email,
       @required this.password,
-      @required this.sessionToken}) {
+      }) {
     this.id = ObjectId().toString();
+    this.sessionToken = "";
   }
 
   @override

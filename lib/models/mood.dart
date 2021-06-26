@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:objectid/objectid.dart';
+part of swagger.api;
 
 class Mood {
   String id;

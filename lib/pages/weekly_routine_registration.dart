@@ -1,51 +1,104 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:notar_e_anotar_app/components/date_state_manager.dart';
 import 'package:notar_e_anotar_app/components/task_card.dart';
 import 'package:notar_e_anotar_app/components/weekdays_card.dart';
 import 'package:notar_e_anotar_app/pages/home_page.dart';
+import 'package:notar_e_anotar_app/services/api.dart';
 import 'package:notar_e_anotar_app/styles/global_styles.dart';
 
 class WeeklyRoutineRegistration extends StatefulWidget {
+  final RoutinePlan routinePlan;
+
+  WeeklyRoutineRegistration({this.routinePlan});
+
   @override
   _WeeklyRoutineRegistrationState createState() =>
       _WeeklyRoutineRegistrationState();
 }
 
 class _WeeklyRoutineRegistrationState extends State<WeeklyRoutineRegistration> {
+  static Map<int, List> daysMapping;
+  RoutinePlan routinePlan;
+
   TextEditingController titleController = TextEditingController();
-  bool _isSelected = false;
+  TextEditingController descController = TextEditingController();
+  bool bCheckboxValue = false;
   final _formKey = GlobalKey<FormState>();
+
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool isBottomCardOpen = false;
+  List<TaskCard> sundayTasks = [];
+  List<TaskCard> mondayTasks = [];
+  List<TaskCard> tuesdayTasks = [];
+  List<TaskCard> wednesdayTasks = [];
+  List<TaskCard> thursdayTasks = [];
+  List<TaskCard> fridayTasks = [];
+  List<TaskCard> saturdayTasks = [];
 
-  List<TaskCard> tasks = [
-    TaskCard(
-      title: "Limpar o quarto",
-      description: "Especificações do desafio aqui",
-      challenge: false,
-    )
-  ];
+  @override
+  void initState() {
+    super.initState();
+    daysMapping = {
+      0: sundayTasks,
+      1: mondayTasks,
+      2: tuesdayTasks,
+      3: wednesdayTasks,
+      4: thursdayTasks,
+      5: fridayTasks,
+      6: saturdayTasks
+    };
+    routinePlan = widget.routinePlan;
+  }
 
   void addCard(String title, String description, bool isChallenge) {
-    tasks.add(TaskCard(
-        title: title,
-        description: description,
-        challenge: isChallenge,
-        callback: removeCard));
+    setState(() {
+      daysMapping[dateStateManager.selectedDateIndex.value].add(TaskCard(
+          title: title,
+          description: description,
+          challenge: isChallenge,
+          callback: removeCard));
+    });
   }
 
   void removeCard(TaskCard card) {
     setState(() {
-      tasks.remove(card);
+      daysMapping[dateStateManager.selectedDateIndex.value].remove(card);
     });
   }
 
   void itemChange(bool val, StateSetter state) {
-    state(() {
+    setState(() {
       //use that state here
-      _isSelected = val;
+      bCheckboxValue = val;
     });
+  }
+
+  void changeSelectedDay(int dayNumber) {
+    dateStateManager.selectedDateIndex.value = dayNumber;
+    setState(() {});
+  }
+
+  WeeklyRoutine generateRoutineModel() {
+    List<RoutineDay> routineDayList = [];
+    for (int i = 0; i <= 6; i++) {
+      List<Task> tasks = daysMapping[i].map((e) {
+        return Task(
+            name: e.title, challenge: e.challenge, description: e.description);
+      }).toList();
+
+      routineDayList.add(
+          RoutineDay(date: DateTime.now(), chores: tasks, routineDate: []));
+    }
+
+    WeeklyRoutine wr = WeeklyRoutine(
+        routinePlanId: routinePlan.id,
+        subjectId: routinePlan.subjects[0].id,
+        year: "Primeiro ano",
+        weekNumber: 1,
+        days: routineDayList);
+    return wr;
   }
 
   @override
@@ -62,7 +115,7 @@ class _WeeklyRoutineRegistrationState extends State<WeeklyRoutineRegistration> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            WeekdaysCard(),
+            WeekdaysCard(title: "INÍCIO", caption: "", isGuardian: false),
             Padding(
               padding: EdgeInsets.only(top: 0, left: 16, right: 16, bottom: 5),
               child: Row(
@@ -91,19 +144,12 @@ class _WeeklyRoutineRegistrationState extends State<WeeklyRoutineRegistration> {
                       onPressed: () {
                         setState(() {
                           isBottomCardOpen = true;
-                          addCard("Teste", "Teste de descrição", true);
                         });
                         this.scaffoldKey.currentState.showBottomSheet(
                           (BuildContext context) {
                             return StatefulBuilder(
                               builder: (context, setState) {
                                 return Container(
-                                  decoration: BoxDecoration(
-                                      color: primary,
-                                      borderRadius: new BorderRadius.only(
-                                          topLeft: const Radius.circular(25.0),
-                                          topRight:
-                                              const Radius.circular(25.0))),
                                   padding: EdgeInsets.symmetric(
                                       vertical: 16, horizontal: 32),
                                   height: 400,
@@ -182,6 +228,8 @@ class _WeeklyRoutineRegistrationState extends State<WeeklyRoutineRegistration> {
                                                                 horizontal: 0,
                                                                 vertical: 16),
                                                         child: TextFormField(
+                                                          controller:
+                                                              descController,
                                                           style: TextStyle(
                                                               color:
                                                                   backgroundWhite),
@@ -246,11 +294,11 @@ class _WeeklyRoutineRegistrationState extends State<WeeklyRoutineRegistration> {
                                                               style: TextStyle(
                                                                   color:
                                                                       backgroundWhite)),
-                                                          value: _isSelected,
+                                                          value: bCheckboxValue,
                                                           onChanged:
                                                               (bool newValue) {
                                                             setState(() {
-                                                              _isSelected =
+                                                              bCheckboxValue =
                                                                   newValue;
                                                             });
                                                           }),
@@ -291,10 +339,18 @@ class _WeeklyRoutineRegistrationState extends State<WeeklyRoutineRegistration> {
                                                               if (_formKey
                                                                   .currentState
                                                                   .validate()) {
-                                                                titleController
-                                                                    .clear();
                                                                 isBottomCardOpen =
                                                                     false;
+                                                                addCard(
+                                                                    titleController
+                                                                        .text,
+                                                                    descController
+                                                                        .text,
+                                                                    bCheckboxValue);
+                                                                titleController
+                                                                    .clear();
+                                                                descController
+                                                                    .clear();
                                                                 Navigator.pop(
                                                                     context);
                                                               }
@@ -324,7 +380,11 @@ class _WeeklyRoutineRegistrationState extends State<WeeklyRoutineRegistration> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   physics: BouncingScrollPhysics(),
-                  child: ListBody(children: tasks),
+                  child: ValueListenableBuilder(
+                      valueListenable: dateStateManager.selectedDateIndex,
+                      builder: (context, value, widget) {
+                        return ListBody(children: daysMapping[value]);
+                      }),
                 ),
               ),
             )
@@ -355,8 +415,15 @@ class _WeeklyRoutineRegistrationState extends State<WeeklyRoutineRegistration> {
                       }
                     }),
                     overlayColor: MaterialStateProperty.all(Colors.white)),
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage())),
-              ));
+                onPressed: () {
+                  WeeklyRoutine model = generateRoutineModel();
+                  // Post weekly routine data to back-end
+                  WeeklyRoutineApi().addWeeklyRoutine(model);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HomePage(weeklyRoutine: model)));
+                }));
   }
 }

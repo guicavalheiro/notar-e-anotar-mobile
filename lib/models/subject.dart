@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:objectid/objectid.dart';
+part of swagger.api;
 
 class Subject {
   String id;
@@ -22,6 +21,14 @@ class Subject {
 
   Map<String, dynamic> toJson() {
     return {'id': id, 'name': name};
+  }
+
+  static List<Map<String, dynamic>> listToJson(List<Subject> subjects) {
+    var list = List<Map<String, dynamic>>();
+    for (Subject subject in subjects) {
+      list.add(subject.toJson());
+    }
+    return list;
   }
 
   static List<Subject> listFromJson(List<dynamic> json) {

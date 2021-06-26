@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:notar_e_anotar_app/components/top_card.dart';
+import 'package:notar_e_anotar_app/models/week_themes.dart';
 import 'package:notar_e_anotar_app/pages/routine_plan_registration.dart';
 import 'package:notar_e_anotar_app/styles/global_styles.dart';
+import 'package:http/http.dart' as http;
 
 class RoutineThemeSelection extends StatefulWidget {
   final int numberOfWeeks;
@@ -12,39 +16,33 @@ class RoutineThemeSelection extends StatefulWidget {
   _RoutineThemeSelectionState createState() => _RoutineThemeSelectionState();
 }
 
-class WeekTheme {
-  String title;
-  bool isChecked;
-
-  WeekTheme(String title, bool isChecked) {
-    this.title = title;
-    this.isChecked = isChecked;
-  }
-}
-
 class _RoutineThemeSelectionState extends State<RoutineThemeSelection> {
   int numberOfThemesSelected = 0;
 
   List<WeekTheme> weekThemes = [
-    WeekTheme('Falar de Motivação', false),
-    WeekTheme('Aprender a relaxar', false),
-    WeekTheme('Organizando a Rotina', false),
-    WeekTheme('Habilidade social – Ser assertivo', false),
-    WeekTheme('Momento especial dos pais', false),
-    WeekTheme('Falando de emoções, pensamentos e comportamentos', false),
-    WeekTheme('Incentive a Gentileza', false),
-    WeekTheme('Vale uma recompensa', false),
-    WeekTheme('Solução de problemas', false),
-    WeekTheme('Favorecendo autonomia', false),
-    WeekTheme('A importância do elogio', false),
-    WeekTheme('As 05 linguagens do amor', false),
-    WeekTheme('Estilo de pais', false),
-    WeekTheme('Para cada reclamação mais gratidão', false)
+    WeekTheme('Falar de Motivação', false, "60bfec91cfdf7aed97ad2ab8"),
+    WeekTheme('Aprender a relaxar', false, "60bfec91cfdf7aed97ad2ab9"),
+    WeekTheme('Organizando a Rotina', false, "60bfec91cfdf7aed97ad2aba"),
+    WeekTheme(
+        'Habilidade social – Ser assertivo', false, "60bfec91cfdf7aed97ad2abb"),
+    WeekTheme('Momento especial dos pais', false, "60bfec91cfdf7aed97ad2abc"),
+    WeekTheme('Falando de emoções, pensamentos e comportamentos', false,
+        "60bfec91cfdf7aed97ad2abd"),
+    WeekTheme('Incentive a Gentileza', false, "60bfec91cfdf7aed97ad2abe"),
+    WeekTheme('Vale uma recompensa', false, "60bfec91cfdf7aed97ad2abf"),
+    WeekTheme('Solução de problemas', false, "60bfec91cfdf7aed97ad2ac0"),
+    WeekTheme('Favorecendo autonomia', false, "60bfec91cfdf7aed97ad2ac1"),
+    WeekTheme('A importância do elogio', false, "60bfec91cfdf7aed97ad2ac2"),
+    WeekTheme('As 05 linguagens do amor', false, "60bfec91cfdf7aed97ad2ac3"),
+    WeekTheme('Estilo de pais', false, "60bfec91cfdf7aed97ad2ac4"),
+    WeekTheme(
+        'Para cada reclamação mais gratidão', false, "60bfec91cfdf7aed97ad2ac5")
   ];
 
   List<WeekTheme> seletedWeekThemes = [
-    WeekTheme('Apresentação - Importância de monitorar a rotina', true),
-    WeekTheme('Visão e término', true)
+    WeekTheme('Apresentação - Importância de monitorar a rotina', true,
+        "60bfec91cfdf7aed97ad2ab6"),
+    WeekTheme('Visão e término', true, "60bfec91cfdf7aed97ad2ab7")
   ];
 
   List<bool> themeCheck = List.filled(14, false, growable: false);
@@ -55,9 +53,23 @@ class _RoutineThemeSelectionState extends State<RoutineThemeSelection> {
     });
   }
 
+  bool fetched = false;
   List<Widget> generateThemeList() {
+    // This monstrosity is necessary because without it the Theme list is fetched at every setState() call as per my understand.
+    // TIP: don't try to understand this
+    if (!fetched) {
+      var th = WeekTheme.getThemes();
+      if (th.length > 0) {
+        print("fetched subjects!");
+
+        weekThemes = th;
+      }
+      fetched = !fetched;
+    }
+
     List<Widget> tileList = [];
-    for (WeekTheme theme in weekThemes) {
+    for (var i = 2; i < weekThemes.length - 1; i++) {
+      var theme = weekThemes[i];
       tileList.add(CheckboxListTile(
           title: Text(theme.title),
           value: theme.isChecked,
@@ -67,7 +79,6 @@ class _RoutineThemeSelectionState extends State<RoutineThemeSelection> {
           onChanged: (bool newValue) {
             setState(() {
               theme.isChecked = newValue;
-
               if (newValue) {
                 numberOfThemesSelected = numberOfThemesSelected + 1;
               } else {
@@ -80,9 +91,10 @@ class _RoutineThemeSelectionState extends State<RoutineThemeSelection> {
   }
 
   checkForSelectedThemes() {
+    seletedWeekThemes.removeRange(1, seletedWeekThemes.length - 1);
     for (WeekTheme theme in weekThemes) {
       if (theme.isChecked && !seletedWeekThemes.contains(theme)) {
-        seletedWeekThemes.insert(1, theme);
+        seletedWeekThemes.insert(seletedWeekThemes.length - 1, theme);
       }
     }
   }
@@ -95,12 +107,17 @@ class _RoutineThemeSelectionState extends State<RoutineThemeSelection> {
         Navigator.of(context).pop();
       },
     );
-
+    
+    String text = "";
+    if (widget.numberOfWeeks - 2 - numberOfThemesSelected > 0) {
+      text = "Você tem que escolher exatamente ${widget.numberOfWeeks - 2} temas! Ainda faltam ${widget.numberOfWeeks - 2 - numberOfThemesSelected}.";
+    } else {
+      text = "Você tem que escolher exatamente ${widget.numberOfWeeks - 2} temas! Você escolheu ${(widget.numberOfWeeks - 2 - numberOfThemesSelected)* -1} a mais.";
+    }
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Atenção!"),
-      content: Text(
-          "Você tem que escolher exatamente ${widget.numberOfWeeks - 2} temas! Ainda faltam ${widget.numberOfWeeks - 2 - numberOfThemesSelected}!!"),
+      content: Text(text),
       actions: [
         okButton,
       ],
@@ -117,6 +134,7 @@ class _RoutineThemeSelectionState extends State<RoutineThemeSelection> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> lista = generateThemeList();
     return Scaffold(
         appBar: AppBar(
           textTheme: Theme.of(context).textTheme,
@@ -140,7 +158,7 @@ class _RoutineThemeSelectionState extends State<RoutineThemeSelection> {
                 decoration: BoxDecoration(boxShadow: listBoxShadow),
                 child: SingleChildScrollView(
                   child: ListBody(
-                    children: generateThemeList(),
+                    children: lista,
                   ),
                 ),
               ),
@@ -153,7 +171,7 @@ class _RoutineThemeSelectionState extends State<RoutineThemeSelection> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 32),
                   child: Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    "Escolha dois temas.\n O primeiro e o último são pré-definidos.",
                     style: TextStyle(
                       fontSize: 20,
                       color: grey,

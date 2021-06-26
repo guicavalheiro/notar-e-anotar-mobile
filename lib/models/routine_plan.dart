@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:notar_e_anotar_app/models/subject.dart';
-import 'package:objectid/objectid.dart';
+part of swagger.api;
 
 class RoutinePlan {
   String id;
@@ -24,7 +22,11 @@ class RoutinePlan {
   }
 
   Map<String, dynamic> toJson() {
-    return {'id': id, 'number_of_weeks': numberOfWeeks, 'subjects': subjects};
+    return {
+      'id': id,
+      'numberOfWeeks': numberOfWeeks,
+      'subjects': Subject.listToJson(subjects)
+    };
   }
 
   static List<RoutinePlan> listFromJson(List<dynamic> json) {

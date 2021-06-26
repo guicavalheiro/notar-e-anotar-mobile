@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of swagger.api;
 
 class AdditionalInfo {
   String name;

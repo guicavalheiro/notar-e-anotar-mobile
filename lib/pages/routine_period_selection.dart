@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notar_e_anotar_app/components/top_card.dart';
+import 'package:notar_e_anotar_app/models/week_themes.dart';
 import 'package:notar_e_anotar_app/pages/routine_theme_selection.dart';
 import 'package:notar_e_anotar_app/styles/global_styles.dart';
 
@@ -7,13 +8,13 @@ class RoutinePeriodSelection extends StatefulWidget {
   @override
   _RoutinePeriodSelectionState createState() => _RoutinePeriodSelectionState();
 }
-
 class _RoutinePeriodSelectionState extends State<RoutinePeriodSelection> {
   int _value = 4;
   int numberOfWeeks = 4;
-
+  
   @override
   Widget build(BuildContext context) {
+    WeekTheme.fetchSubjects();
     return Scaffold(
         appBar: AppBar(
           textTheme: Theme.of(context).textTheme,
@@ -99,7 +100,7 @@ class _RoutinePeriodSelectionState extends State<RoutinePeriodSelection> {
             minimumSize: MaterialStateProperty.all(
                 Size(MediaQuery.of(context).size.width - 64, 44)),
           ),
-          onPressed: () {
+          onPressed: () async {
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -113,5 +114,9 @@ class _RoutinePeriodSelectionState extends State<RoutinePeriodSelection> {
   void valueWeeks(value) {
     // valueWeek = value;
     numberOfWeeks = value;
+  }
+
+  void call() {
+    WeekTheme.fetchSubjects();
   }
 }

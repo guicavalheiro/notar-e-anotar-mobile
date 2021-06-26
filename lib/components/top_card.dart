@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notar_e_anotar_app/components/weekday_tile.dart';
 import 'package:notar_e_anotar_app/styles/global_styles.dart';
-import 'package:notar_e_anotar_app/utils/constants.dart';
 
 class TopCard extends StatelessWidget {
   final String title;

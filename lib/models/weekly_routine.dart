@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:notar_e_anotar_app/models/routine_day.dart';
-import 'package:objectid/objectid.dart';
+part of swagger.api;
 
 class WeeklyRoutine {
   String id;

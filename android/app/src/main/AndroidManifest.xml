@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.pucrs.ages.notar_e_anotar_app">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="notar_e_anotar_app"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
