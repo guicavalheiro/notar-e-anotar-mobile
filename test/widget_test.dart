@@ -1,30 +1,56 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import '../lib/main.dart';
+import 'package:notar_e_anotar_app/pages/register_page.dart';
+import 'package:notar_e_anotar_app/pages/weekly_routine_registration.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+  testWidgets('Creating a new task on WeeklyRoutine',
+      (WidgetTester tester) async {
+    // Procurando widgets a partir de uma key
+    final criar = find.byKey(ValueKey("criarButton"));
+    final titulo = find.byKey(ValueKey("tituloButton"));
+    final salvar = find.byKey(ValueKey("salvarButton"));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Realizando o caminho pela interface
+    await tester.pumpWidget(MaterialApp(home: WeeklyRoutineRegistration()));
+    await tester.tap(criar);
+    await tester.pump(Duration(seconds: 1));
+    await tester.enterText(titulo, "Tarefa teste");
+    await tester.pump(Duration(seconds: 1));
+    await tester.tap(salvar);
+    await tester.pump(Duration(seconds: 2));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Buscando resultado esperado
+    expect(find.text("Tarefa teste"), findsOneWidget);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  testWidgets('Forcing error while registering new user',
+      (WidgetTester tester) async {
+    // Procurando widgets a partir de uma key
+    final nome = find.byKey(ValueKey("nomeField"));
+    final sobrenome = find.byKey(ValueKey("sobrenomeField"));
+    final dependente = find.byKey(ValueKey("dependenteField"));
+    final email = find.byKey(ValueKey("emailField"));
+    final senha = find.byKey(ValueKey("senhaField"));
+    final finalizar = find.byKey(ValueKey("finalizarButton"));
+
+    // Realizando o caminho pela interface
+    await tester.pumpWidget(MaterialApp(home: RegisterPage()));
+    await tester.enterText(nome, "Rafael");
+    await tester.pump(Duration(seconds: 1));
+    await tester.enterText(sobrenome, "Silva");
+    await tester.pump(Duration(seconds: 1));
+    await tester.enterText(dependente, "Junior");
+    await tester.pump(Duration(seconds: 1));
+    await tester.enterText(email, "emailSemArroba");
+    await tester.pump(Duration(seconds: 1));
+    await tester.enterText(senha, "123");
+    await tester.pump(Duration(seconds: 1));
+    await tester.tap(finalizar);
+    await tester.pump(Duration(seconds: 1));
+
+    // Buscando resultado esperado
+    expect(find.text("A senha deve ter no mínimo 8 caracteres"), findsWidgets);
+    expect(find.text("E-mail está incorreto."), findsWidgets);
   });
 }

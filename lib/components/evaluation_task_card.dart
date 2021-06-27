@@ -138,7 +138,7 @@ class _EvaluationTaskCardState extends State<EvaluationTaskCard> {
               onPressed: () => setState(() {
                     hasGoodEvaluation = !hasGoodEvaluation;
                     hasBadEvaluation = false;
-                    // After 01:30 of try and error I'm pretty sure this is the best I can do at the end of the semester. 
+                    // After 01:30 of try and error I'm pretty sure this is the best I can do at the end of the semester.
                     widget.hasGoodEvaluation = !widget.hasGoodEvaluation;
                     widget.hasBadEvaluation = false;
                   })),

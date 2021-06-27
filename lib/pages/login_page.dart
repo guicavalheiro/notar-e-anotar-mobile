@@ -93,11 +93,16 @@ class LoginPage extends StatelessWidget {
                       SecondaryButtonWidget(
                         text: 'Entrar',
                         onClicked: () {
-                          Navigator.push(context,
-      MaterialPageRoute(builder: (context) => RoutinePeriodSelection()));
-                          if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
-                            login(context, emailController.text, passwordController.text);
-                          } 
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      RoutinePeriodSelection()));
+                          if (emailController.text.isNotEmpty &&
+                              passwordController.text.isNotEmpty) {
+                            login(context, emailController.text,
+                                passwordController.text);
+                          }
                         },
                       ),
                       SizedBox(height: 16),
@@ -108,16 +113,16 @@ class LoginPage extends StatelessWidget {
                               style:
                                   TextStyle(color: primaryFaded, fontSize: 18)),
                           new GestureDetector(
-                            onTap: () {
-                              this.goToRegister(context);
-                            },
-                            child: Text("Registre-se",
-                              style: TextStyle(
-                                  color: primaryFaded,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                              )
-                            ),    
+                              onTap: () {
+                                this.goToRegister(context);
+                              },
+                              child: Text(
+                                "Registre-se",
+                                style: TextStyle(
+                                    color: primaryFaded,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              )),
                         ],
                       ),
                       SizedBox(height: 36)
@@ -139,12 +144,11 @@ class LoginPage extends StatelessWidget {
     setCredentials(pEmail, pPassword);
 
     final response = await http.get(
-      Uri.http('54.144.31.34', '/api/weekly_routine/', loginParameters),
-      headers: <String, String>{
-        'Authorization': 'Basic ${getEncondedCredentials()}',
-        'Content-Type': 'application/json; charset=UTF-8',
-      }
-    );
+        Uri.http('54.144.31.34', '/api/weekly_routine/', loginParameters),
+        headers: <String, String>{
+          'Authorization': 'Basic ${getEncondedCredentials()}',
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
 
     if (response.statusCode == 200) {
       goToHomePage(context);
@@ -154,6 +158,6 @@ class LoginPage extends StatelessWidget {
   void goToHomePage(context) => Navigator.push(context,
       MaterialPageRoute(builder: (context) => RoutinePeriodSelection()));
 
-  void goToRegister(context) => Navigator.push(context,
-    MaterialPageRoute(builder: (context) => RegisterPage()));
+  void goToRegister(context) => Navigator.push(
+      context, MaterialPageRoute(builder: (context) => RegisterPage()));
 }

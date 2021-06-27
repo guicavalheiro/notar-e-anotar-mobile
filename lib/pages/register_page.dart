@@ -69,6 +69,7 @@ class RegisterPage extends StatelessWidget {
                             children: [
                               SizedBox(height: 16),
                               TextFormField(
+                                key: Key("nomeField"),
                                 controller: nameParentController,
                                 cursorColor: Theme.of(context).cursorColor,
                                 style: TextStyle(color: primary),
@@ -86,6 +87,7 @@ class RegisterPage extends StatelessWidget {
                               ),
                               SizedBox(height: 12),
                               TextFormField(
+                                key: Key("sobrenomeField"),
                                 controller: surnameParentController,
                                 cursorColor: Theme.of(context).cursorColor,
                                 style: TextStyle(color: primary),
@@ -103,6 +105,7 @@ class RegisterPage extends StatelessWidget {
                               ),
                               SizedBox(height: 12),
                               TextFormField(
+                                key: Key("dependenteField"),
                                 controller: nameChildController,
                                 cursorColor: Theme.of(context).cursorColor,
                                 style: TextStyle(color: primary),
@@ -120,6 +123,7 @@ class RegisterPage extends StatelessWidget {
                               ),
                               SizedBox(height: 12),
                               TextFormField(
+                                key: Key("emailField"),
                                 controller: emailController,
                                 validator: (value) {
                                   if (!RegExp(
@@ -145,6 +149,7 @@ class RegisterPage extends StatelessWidget {
                               ),
                               SizedBox(height: 12),
                               TextFormField(
+                                key: Key("senhaField"),
                                 controller: passwordController,
                                 validator: (value) {
                                   if (value == null ||
@@ -179,6 +184,7 @@ class RegisterPage extends StatelessWidget {
                         )))),
           ),
           Container(
+            key: Key("finalizarButton"),
             color: backgroundWhite,
             child: Padding(
               padding: EdgeInsets.all(16),
@@ -189,14 +195,13 @@ class RegisterPage extends StatelessWidget {
                         text: 'Finalizar',
                         onClicked: () {
                           if (_formKey.currentState.validate()) {
-                          createUser(
-                            nameParentController.text,
-                            surnameParentController.text,
-                            nameChildController.text,
-                            passwordController.text,
-                            emailController.text
-                          );
-                          goToHomePage(context);
+                            createUser(
+                                nameParentController.text,
+                                surnameParentController.text,
+                                nameChildController.text,
+                                passwordController.text,
+                                emailController.text);
+                            goToHomePage(context);
                           }
                         }),
                   )

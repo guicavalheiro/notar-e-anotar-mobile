@@ -127,6 +127,7 @@ class _WeeklyRoutineRegistrationState extends State<WeeklyRoutineRegistration> {
                       textAlign: TextAlign.start,
                       style: Theme.of(context).textTheme.headline5),
                   ElevatedButton.icon(
+                      key: Key("criarButton"),
                       icon: Icon(Icons.add),
                       label: Text('Criar'),
                       style: ButtonStyle(
@@ -177,6 +178,7 @@ class _WeeklyRoutineRegistrationState extends State<WeeklyRoutineRegistration> {
                                                       MainAxisSize.min,
                                                   children: <Widget>[
                                                     TextFormField(
+                                                      key: Key("tituloButton"),
                                                       controller:
                                                           titleController,
                                                       style: TextStyle(
@@ -309,6 +311,8 @@ class _WeeklyRoutineRegistrationState extends State<WeeklyRoutineRegistration> {
                                                                 horizontal: 2,
                                                                 vertical: 0),
                                                         child: ElevatedButton(
+                                                            key: Key(
+                                                                "salvarButton"),
                                                             style: ButtonStyle(
                                                               minimumSize: MaterialStateProperty.all(Size(
                                                                   MediaQuery.of(
