@@ -3,7 +3,7 @@ import 'package:notar_e_anotar_app/services/api.dart';
 
 void main() {
   group('User testing', () {
-    var user = User(firstName: 'Rafael', lastName: 'Silva', childName: 'Guilherme Silva', email: 'rafael.silva@gmail.com', password: '123123');
+    final user = User(firstName: 'Rafael', lastName: 'Silva', childName: 'Guilherme Silva', email: 'rafael.silva@gmail.com', password: '123123');
 
     test('Testing user first name', (){
       expect(user.firstName, 'Rafael');
