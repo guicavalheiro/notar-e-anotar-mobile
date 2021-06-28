@@ -14,7 +14,7 @@ class AdditionalInfo {
   AdditionalInfo.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
     name = json['name'].toString();
-    rating = json['rating'];
+    rating = json['rating'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -24,7 +24,7 @@ class AdditionalInfo {
   static List<AdditionalInfo> listFromJson(List<dynamic> json) {
     return json == null
         ? new List<AdditionalInfo>()
-        : json.map((value) => new AdditionalInfo.fromJson(value)).toList();
+        : json.map((value).toString() => new AdditionalInfo.fromJson(value)).toList();
   }
 
   static Map<String, AdditionalInfo> mapFromJson(
