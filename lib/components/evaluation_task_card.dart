@@ -84,6 +84,7 @@ class _EvaluationTaskCardState extends State<EvaluationTaskCard> {
     } else if (hasBadEvaluation) {
       return darkWashedRed;
     }
+    return null;
   }
 
   Color calculateColorForBadEvaluationButton() {
@@ -96,6 +97,7 @@ class _EvaluationTaskCardState extends State<EvaluationTaskCard> {
     } else if (hasGoodEvaluation) {
       return darkBlueishGreen;
     }
+    return null;
   }
 
   @override

@@ -13,7 +13,7 @@ class AdditionalInfo {
 
   AdditionalInfo.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    name = json['name'];
+    name = json['name'].toString();
     rating = json['rating'];
   }
 
