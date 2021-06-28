@@ -14,7 +14,7 @@ class AdditionalInfo {
   AdditionalInfo.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
     name = json['name'].toString();
-    rating = json['rating'].toString();
+    rating = json['rating'].parseInt();
   }
 
   Map<String, dynamic> toJson() {
@@ -22,9 +22,9 @@ class AdditionalInfo {
   }
 
   static List<AdditionalInfo> listFromJson(List<dynamic> json) {
-    return json == null
+    return json.toList() == null
         ? new List<AdditionalInfo>()
-        : json.map((value).toString() => new AdditionalInfo.fromJson(value)).toList();
+        : json.map((value) => new AdditionalInfo.fromJson(value)).toList();
   }
 
   static Map<String, AdditionalInfo> mapFromJson(
