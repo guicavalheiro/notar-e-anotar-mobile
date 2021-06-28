@@ -14,7 +14,7 @@ class AdditionalInfo {
   AdditionalInfo.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
     name = json['name'].toString();
-    rating = json['rating'].parseInt();
+    rating = json['rating'] as int;
   }
 
   Map<String, dynamic> toJson() {
