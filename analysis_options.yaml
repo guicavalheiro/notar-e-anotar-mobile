@@ -3,10 +3,11 @@ include: package:lint/analysis_options.yaml
 linter:
   rules:
    - parameter_assignments
-   - argument_type_not_assignable: false
+   - argument_type_not_assignable:false
 
 analyzer: 
   errors:
+    invalid_assignment: warning
     missing_required_param: error
     parameter_assignments: error 
     missing_return: error
