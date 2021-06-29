@@ -6,6 +6,9 @@ linter:
 
 analyzer: 
   errors:
-    missing_required_param: error
-    parameter_assignments: error 
-    missing_return: error
+    return_of_invalid_type: warning
+    argument_type_not_assignable: warning
+    invalid_assignment: warning
+    missing_required_param: warning
+    parameter_assignments: warning
+    missing_return: warning
