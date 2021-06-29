@@ -17,10 +17,10 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Samples
 
-![Screenshot](images\gitHubImages\Image0.png)
+![Screenshot](images/gitHubImages/Image0.png)
 
-![Screenshot](images\gitHubImages\Image1.png)
+![Screenshot](images/gitHubImages/Image1.png)
 
-![Screenshot](images\gitHubImages\Image2.png)
+![Screenshot](images/gitHubImages/Image2.png)
 
-![Screenshot](images\gitHubImages\Image3.png)
+![Screenshot](images/gitHubImages/Image3.png)
